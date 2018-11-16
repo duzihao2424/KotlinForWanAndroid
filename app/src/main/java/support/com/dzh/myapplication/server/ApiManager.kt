@@ -3,10 +3,7 @@ package support.com.dzh.myapplication.server
 import android.content.Context
 import io.reactivex.Observable
 import support.com.dzh.myapplication.base.BaseBean
-import support.com.dzh.myapplication.model.BannerBean
-import support.com.dzh.myapplication.model.Data
-import support.com.dzh.myapplication.model.HoneList
-import support.com.dzh.myapplication.model.LoginBean
+import support.com.dzh.myapplication.model.*
 
 class ApiManager {
     var apiService: ApiService? = null
@@ -28,7 +25,11 @@ class ApiManager {
 
     }
 
-    fun getBannerData():Observable<BaseBean<List<BannerBean>>>{
+    fun getBannerData(): Observable<BaseBean<List<BannerBean>>> {
         return apiService!!.getBannerData()
+    }
+
+    fun getCollectData(page: Int): Observable<BaseBean<CollectListBean>> {
+        return apiService!!.getCollectData(page!!)
     }
 }

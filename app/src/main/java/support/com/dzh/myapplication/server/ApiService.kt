@@ -6,10 +6,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import support.com.dzh.myapplication.base.BaseBean
-import support.com.dzh.myapplication.model.BannerBean
-import support.com.dzh.myapplication.model.Data
-import support.com.dzh.myapplication.model.HoneList
-import support.com.dzh.myapplication.model.LoginBean
+import support.com.dzh.myapplication.model.*
 
 
 interface ApiService {
@@ -21,5 +18,8 @@ interface ApiService {
     fun homeListData(@Path("page") page: Int): Observable<BaseBean<HoneList>>
 
     @GET("banner/json")
-    fun getBannerData():Observable<BaseBean<List<BannerBean>>>
+    fun getBannerData(): Observable<BaseBean<List<BannerBean>>>
+
+    @GET("lg/collect/list/{page}/json")
+    fun getCollectData(@Path("page") page: Int): Observable<BaseBean<CollectListBean>>
 }
