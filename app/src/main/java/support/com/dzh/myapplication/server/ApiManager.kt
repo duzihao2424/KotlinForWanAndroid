@@ -11,7 +11,7 @@ class ApiManager {
 
     constructor(context: Context) {
         mContext = context
-        apiService = RetrofitHelper.singleInstance.getService()
+        apiService = RetrofitHelper.singleInstance.getService(mContext!!)
     }
 
 
@@ -32,4 +32,6 @@ class ApiManager {
     fun getCollectData(page: Int): Observable<BaseBean<CollectListBean>> {
         return apiService!!.getCollectData(page!!)
     }
+
+
 }

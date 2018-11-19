@@ -22,4 +22,5 @@ interface ApiService {
 
     @GET("lg/collect/list/{page}/json")
     fun getCollectData(@Path("page") page: Int): Observable<BaseBean<CollectListBean>>
+
 }

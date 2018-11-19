@@ -3,6 +3,9 @@ package support.com.dzh.myapplication.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import kotlinx.android.synthetic.main.activity_login.*
 import support.com.dzh.myapplication.R
 import support.com.dzh.myapplication.base.BaseActivity
@@ -42,6 +45,12 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initDate() {
+        val cookieJar = PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(this))
+        if (cookieJar!=null){
+            val intent =Intent(this@LoginActivity,MainActivity::class.java)
+            startActivity(intent)
+        }
+
 
         presenter = LoginPresenter(this, object : LoginView {
             override fun onFail() {
