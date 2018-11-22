@@ -1,8 +1,6 @@
 package support.com.dzh.myapplication.base
 
-import android.content.Context
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +10,20 @@ import com.trello.rxlifecycle2.components.support.RxFragment
 abstract class BaseFragment : RxFragment(), View.OnClickListener {
 
     protected var mContext: RxFragment? = null
-    var mView:View? = null
+    var mView: View? = null
     var lastTime = 0L
 
     protected var isDestroyView: Boolean = false
-    var inflater: LayoutInflater?=null
+    var inflater: LayoutInflater? = null
+
+    /**
+     * 视图是否加载完毕
+     */
+    private var isViewPrepare = false
+    /**
+     * 数据是否加载过了
+     */
+    private var hasLoadData = false
 
 
     /**
@@ -30,13 +37,12 @@ abstract class BaseFragment : RxFragment(), View.OnClickListener {
         this.inflater = inflater
         val layoutId = layoutId()
         mView = inflater.inflate(layoutId, container, false)
-        isDestroyView = false
-
-
-        //向用户展示信息前的准备工作在这个方法里处理
-        preliminary()
+        isViewPrepare = true
+        initListener()
+        lazyLoadDataIfPrepared()
         return mView
     }
+
 
     override fun onClick(p0: View?) {
         if (fastClick()) onWClick(p0!!)
@@ -50,9 +56,6 @@ abstract class BaseFragment : RxFragment(), View.OnClickListener {
         } else return false
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
 
     override fun onPause() {
         super.onPause()
@@ -68,14 +71,8 @@ abstract class BaseFragment : RxFragment(), View.OnClickListener {
     }
 
 
-    /**
-     * 向用户展示信息前的准备工作在这个方法里处理
-     */
-    protected fun preliminary() {
-        // 初始化数据
-        initialized()
-        // 初始化组件
-        initListener()
+    override fun onResume() {
+        super.onResume()
     }
 
 
@@ -89,8 +86,28 @@ abstract class BaseFragment : RxFragment(), View.OnClickListener {
      */
     protected abstract fun initListener()
 
-
     protected abstract fun onWClick(view: View)
+
+    /**
+     * fragment被设置为不可见时调用
+     */
+    protected abstract fun onInvisible()
+
+
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser) {
+            lazyLoadDataIfPrepared()
+        }
+    }
+
+    private fun lazyLoadDataIfPrepared() {
+        if (userVisibleHint && isViewPrepare && !hasLoadData) {
+            initialized()
+            hasLoadData = true
+        }
+    }
 
 
 }

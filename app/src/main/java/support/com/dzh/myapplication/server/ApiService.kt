@@ -23,4 +23,10 @@ interface ApiService {
     @GET("lg/collect/list/{page}/json")
     fun getCollectData(@Path("page") page: Int): Observable<BaseBean<CollectListBean>>
 
+    @GET("wxarticle/chapters/json")
+    fun getWxarticleData(): Observable<DataWx>
+
+    @GET("wxarticle/list/{id}/{page}/json")
+    fun getWxArtivleList(@Path("page") page: Int, @Path("id") id: Int): Observable<BaseBean<BeanWxList>>
+
 }

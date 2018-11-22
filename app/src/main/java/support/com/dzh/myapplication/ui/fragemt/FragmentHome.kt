@@ -28,6 +28,11 @@ import java.util.*
 
 
 class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
+
+    override fun onInvisible() {
+
+    }
+
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         val intent = Intent(this@FragmentHome.activity, HomeDetailActivity::class.java)
         intent.putExtra("url", list.get(position).link)
@@ -58,27 +63,32 @@ class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, S
     var images = ArrayList<String>()
     var titles = ArrayList<String>()
 
-    fun getInstance(): FragmentHome {
-        val myFragment = FragmentHome()
-        return myFragment
+    private val linearLayoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(activity)
+    }
+
+    companion object {
+        fun getInstance(): FragmentHome {
+            val myFragment = FragmentHome()
+            return myFragment
+        }
     }
 
 
+
+
     override fun initialized() {
+        presenter!!.homeList(page)
+        presenter!!.getBannerData()
+    }
 
-
-
+    override fun initListener() {
         mView!!.refresh_layout.setOnRefreshListener(this)
         adapter = HomeAdapter(R.layout.item_home_layout, list)
-        mView!!.home_recyclerview!!.layoutManager = LinearLayoutManager(this@FragmentHome.context)
+        mView!!.home_recyclerview!!.layoutManager = linearLayoutManager
         mView!!.home_recyclerview!!.adapter = adapter
         adapter!!.setOnLoadMoreListener(this)
         adapter!!.setOnItemClickListener(this)
-
-        mView!!.fab!!.setOnClickListener{view ->
-            mView!!.home_recyclerview!!.smoothScrollToPosition(0)
-
-        }
 
 
         presenter = HomePresenter(this, object : HomeView, OnBannerListener {
@@ -123,16 +133,19 @@ class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, S
             }
 
         })
-
-        presenter!!.homeList(page)
-        presenter!!.getBannerData()
-    }
-
-    override fun initListener() {
-
     }
 
     override fun onWClick(view: View) {
+    }
+
+     fun scrollToTop() {
+        mView!!.home_recyclerview!!.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
+            }
+        }
     }
 
 }

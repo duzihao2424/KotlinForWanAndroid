@@ -49,6 +49,7 @@ class LoginActivity : BaseActivity() {
         if (cookieJar!=null){
             val intent =Intent(this@LoginActivity,MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
 
@@ -60,6 +61,7 @@ class LoginActivity : BaseActivity() {
             override fun onSuccess(date: LoginBean) {
                 val intent =Intent(this@LoginActivity,MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
 
         })

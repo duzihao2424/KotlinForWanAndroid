@@ -8,21 +8,54 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include
-        android:id="@+id/include2"
-        layout="@layout/app_bar_main2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.MainActivity"
+        tools:showIn="@layout/app_bar_main2">
+
+        <include layout="@layout/app_bar_main2" />
+
+        <include layout="@layout/content_main2" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floating_action_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="20dp"
+            app:layout_behavior="support.com.dzh.myapplication.widget.behavior.ScaleDownShowBehavior"
+            app:srcCompat="@drawable/ic_arrow_upward_white_24dp" />
+
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="?android:attr/windowBackground"
+            app:layout_behavior="support.com.dzh.myapplication.widget.BottomNavigationBehavior"
+            app:menu="@menu/navigation" />
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:layout_scrollFlags="scroll|enterAlways"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main2"
+        app:layout_scrollFlags="scroll|enterAlways"
         app:menu="@menu/activity_main2_drawer" />
+
 
 </android.support.v4.widget.DrawerLayout>
 

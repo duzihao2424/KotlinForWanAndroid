@@ -33,5 +33,13 @@ class ApiManager {
         return apiService!!.getCollectData(page!!)
     }
 
+    fun getWxarticleData(): Observable<DataWx> {
+        return apiService!!.getWxarticleData()
+    }
+
+    fun getWxListData(id: Int, page: Int): Observable<BaseBean<BeanWxList>> {
+        return apiService!!.getWxArtivleList(page, id)
+    }
+
 
 }
