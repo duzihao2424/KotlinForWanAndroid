@@ -61,7 +61,6 @@ class ApiClient {
             }
 
             val cookieJar = PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(mContext))
-
             val interceptor = HttpLoggingInterceptorM(LogInterceptor())
             interceptor.level = HttpLoggingInterceptorM.Level.BODY
             builder.addInterceptor(interceptor)

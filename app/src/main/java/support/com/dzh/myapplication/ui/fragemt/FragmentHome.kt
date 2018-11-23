@@ -1,17 +1,16 @@
 package support.com.dzh.myapplication.ui.fragemt
 
 import android.content.Intent
+import android.os.Handler
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.youth.banner.BannerConfig
 import com.youth.banner.listener.OnBannerListener
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.home_header_layout.view.*
-
 import support.com.dzh.myapplication.R
 import support.com.dzh.myapplication.adapter.HomeAdapter
 import support.com.dzh.myapplication.base.BaseBean
@@ -27,7 +26,10 @@ import support.com.dzh.myapplication.view.HomeView
 import java.util.*
 
 
-class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
+class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
+    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+
+    }
 
     override fun onInvisible() {
 
@@ -75,8 +77,6 @@ class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, S
     }
 
 
-
-
     override fun initialized() {
         presenter!!.homeList(page)
         presenter!!.getBannerData()
@@ -90,8 +90,10 @@ class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, S
         adapter!!.setOnLoadMoreListener(this)
         adapter!!.setOnItemClickListener(this)
 
+        adapter!!.setOnItemChildClickListener(this)
 
-        presenter = HomePresenter(this, object : HomeView, OnBannerListener {
+
+        presenter = HomePresenter(this.context!!,this.activity as RxAppCompatActivity, object : HomeView, OnBannerListener {
             override fun OnBannerClick(position: Int) {
                 val intent = Intent(this@FragmentHome.activity, HomeDetailActivity::class.java)
                 intent.putExtra("url", list1.get(position).url)
@@ -138,7 +140,7 @@ class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, S
     override fun onWClick(view: View) {
     }
 
-     fun scrollToTop() {
+    fun scrollToTop() {
         mView!!.home_recyclerview!!.run {
             if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
                 scrollToPosition(0)
@@ -147,5 +149,22 @@ class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, S
             }
         }
     }
+
+    fun clickRefresh() {
+        mView!!.refresh_layout.isRefreshing = true
+        mView!!.home_recyclerview!!.scrollToPosition(0)
+
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                page = 0
+                list.clear()
+                presenter!!.homeList(page)
+            }
+
+        }, 2000)
+
+    }
+
 
 }

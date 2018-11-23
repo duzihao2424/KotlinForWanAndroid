@@ -2,12 +2,14 @@ package support.com.dzh.myapplication.ui.fragemt
 
 
 import android.content.Intent
+import android.os.Handler
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import kotlinx.android.synthetic.main.fragment_wx_article.view.*
 import support.com.dzh.myapplication.R
 import support.com.dzh.myapplication.adapter.WxListAdapter
@@ -31,13 +33,13 @@ class FragmentWxArticle : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
     }
 
     override fun onRefresh() {
-        page = 1
+        page = 0
         list1.clear()
         presenter!!.getWxListData(wxid, page)
     }
 
     var wxid = 0
-    var page = 1
+    var page = 0
     var presenter: WxArticlePresenter? = null
     var list1 = ArrayList<wxData>()
     var adapter: WxListAdapter? = null
@@ -59,7 +61,7 @@ class FragmentWxArticle : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
         adapter = WxListAdapter(R.layout.item_wxarticle_layout, list1)
         mView!!.wx_list_rview.adapter = adapter
 
-        presenter = WxArticlePresenter(this, "list", object : WxArticleViewList {
+        presenter = WxArticlePresenter(this.context!!,this.activity as RxAppCompatActivity, "list", object : WxArticleViewList {
             override fun onSuccess(list: List<wxData>) {
                 if (adapter!!.isLoading) {
                     adapter!!.loadMoreComplete()
@@ -109,5 +111,21 @@ class FragmentWxArticle : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
                   smoothScrollToPosition(0)
               }
           }
+    }
+
+    fun clickRefresh(){
+        mView!!.wx_list_rview.scrollToPosition(0)
+        mView!!.wx_refresh_layout.isRefreshing = true
+
+        val handler = Handler()
+        handler.postDelayed(object : Runnable{
+            override fun run() {
+                page = 0
+                list1.clear()
+                presenter!!.getWxListData(wxid, page)
+            }
+
+        },2000)
+
     }
 }

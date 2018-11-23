@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main2.*
-import kotlinx.android.synthetic.main.content_main2.*
 import support.com.dzh.myapplication.R
 import support.com.dzh.myapplication.base.BaseActivity
 import support.com.dzh.myapplication.ui.fragemt.FragmentHome
@@ -58,7 +57,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     0 -> {
                         fh!!.scrollToTop()
                     }
-                    2->{
+                    2 -> {
                         foa!!.scrollToTop()
                     }
                 }
@@ -69,7 +68,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                showFragment(0)
+                if (mIndex == 0) {
+                    fh!!.clickRefresh()
+                } else {
+                    showFragment(0)
+                }
+
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
@@ -77,7 +81,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
-                showFragment(2)
+                if (mIndex == 2) {
+                    foa!!.clickRefresh()
+                } else {
+                    showFragment(2)
+                }
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -149,7 +157,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_camera -> {
-
+                intent = Intent(this@MainActivity, CollectActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_gallery -> {
 

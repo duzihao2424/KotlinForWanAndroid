@@ -1,6 +1,7 @@
 package support.com.dzh.myapplication.ui.fragemt
 
 import android.view.View
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import kotlinx.android.synthetic.main.fragment_official_accounts.view.*
 import support.com.dzh.myapplication.R
 import support.com.dzh.myapplication.adapter.WxTitleAdapter
@@ -31,7 +32,7 @@ class FragmentOfficialAccounts : BaseFragment() {
         mView!!.tabs.setTabsFromPagerAdapter(adapter)
 
 
-        presenter = WxArticlePresenter(this, "home", object : WxArticleView {
+        presenter = WxArticlePresenter(this.context!!, this.activity as RxAppCompatActivity,"home", object : WxArticleView {
             override fun onSuccess(data: List<DataWx.DataBean>) {
                 list.clear()
                 list.addAll(data)
@@ -76,5 +77,15 @@ class FragmentOfficialAccounts : BaseFragment() {
         val frg = childFragmentManager.fragments.get(mView!!.viewpager.currentItem) as FragmentWxArticle
         frg.scrollToTop()
     }
+
+    fun clickRefresh(){
+        if (adapter.count == 0) {
+            return
+        }
+        val frg = childFragmentManager.fragments.get(mView!!.viewpager.currentItem) as FragmentWxArticle
+        frg.clickRefresh()
+    }
+
+
 }
 
