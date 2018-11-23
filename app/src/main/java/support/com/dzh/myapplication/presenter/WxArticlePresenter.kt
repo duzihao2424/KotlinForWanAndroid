@@ -47,7 +47,7 @@ class WxArticlePresenter :BasePresenter{
             }
 
             override fun failure(statusCode: Int, apiErrorModel: ApiErrorModel) {
-                aView!!.onError()
+                aView!!.onError(apiErrorModel.message)
             }
 
         })
@@ -60,7 +60,7 @@ class WxArticlePresenter :BasePresenter{
             }
 
             override fun failure(statusCode: Int, apiErrorModel: ApiErrorModel) {
-                wView!!.onError()
+                wView!!.onError(apiErrorModel.message)
             }
 
         })

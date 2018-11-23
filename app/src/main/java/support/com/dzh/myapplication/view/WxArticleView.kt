@@ -6,10 +6,8 @@ import support.com.dzh.myapplication.model.wxData
 
 interface WxArticleView : BaseView {
     fun onSuccess(data: List<DataWx.DataBean>)
-    fun onError()
 }
 
 interface WxArticleViewList :BaseView{
     fun onSuccess(list: List<wxData>)
-    fun onError()
 }

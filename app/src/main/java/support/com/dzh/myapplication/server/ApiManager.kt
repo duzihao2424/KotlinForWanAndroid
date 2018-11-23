@@ -29,7 +29,7 @@ class ApiManager {
         return apiService!!.getBannerData()
     }
 
-    fun getCollectData(page: Int): Observable<BaseBean<CollectListBean>> {
+    fun getCollectData(page: Int): Observable<BaseBean<HoneList>> {
         return apiService!!.getCollectData(page!!)
     }
 

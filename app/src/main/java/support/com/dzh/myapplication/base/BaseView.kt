@@ -1,5 +1,6 @@
 package support.com.dzh.myapplication.base
 
-interface BaseView  {
+interface BaseView {
+    fun onError(msg: String)
 
 }

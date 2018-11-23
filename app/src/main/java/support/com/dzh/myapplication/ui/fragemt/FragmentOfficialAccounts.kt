@@ -33,6 +33,9 @@ class FragmentOfficialAccounts : BaseFragment() {
 
 
         presenter = WxArticlePresenter(this.context!!, this.activity as RxAppCompatActivity,"home", object : WxArticleView {
+            override fun onError(msg: String) {
+
+            }
             override fun onSuccess(data: List<DataWx.DataBean>) {
                 list.clear()
                 list.addAll(data)
@@ -42,10 +45,6 @@ class FragmentOfficialAccounts : BaseFragment() {
                 for (i in 0 until list.size) {
                     mView!!.tabs.addTab(mView!!.tabs.newTab().setText(list.get(i).name))//添加tab选项
                 }
-
-            }
-
-            override fun onError() {
 
             }
         })

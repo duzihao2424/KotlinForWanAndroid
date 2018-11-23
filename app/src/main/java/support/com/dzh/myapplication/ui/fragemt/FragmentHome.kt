@@ -84,7 +84,7 @@ class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, S
 
     override fun initListener() {
         mView!!.refresh_layout.setOnRefreshListener(this)
-        adapter = HomeAdapter(R.layout.item_home_layout, list)
+        adapter = HomeAdapter(R.layout.item_home_layout, list,0)
         mView!!.home_recyclerview!!.layoutManager = linearLayoutManager
         mView!!.home_recyclerview!!.adapter = adapter
         adapter!!.setOnLoadMoreListener(this)
@@ -130,7 +130,7 @@ class FragmentHome : BaseFragment(), BaseQuickAdapter.RequestLoadMoreListener, S
             }
 
 
-            override fun onFail() {
+            override fun onError(msg: String) {
                 ToastUtil.show(this@FragmentHome.context!!, "加载失败")
             }
 

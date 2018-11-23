@@ -62,6 +62,11 @@ class FragmentWxArticle : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
         mView!!.wx_list_rview.adapter = adapter
 
         presenter = WxArticlePresenter(this.context!!,this.activity as RxAppCompatActivity, "list", object : WxArticleViewList {
+            override fun onError(msg: String) {
+                adapter!!.loadMoreFail()
+                mView!!.wx_refresh_layout.isRefreshing = false
+            }
+
             override fun onSuccess(list: List<wxData>) {
                 if (adapter!!.isLoading) {
                     adapter!!.loadMoreComplete()
@@ -72,10 +77,6 @@ class FragmentWxArticle : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, 
                 mView!!.wx_refresh_layout.isRefreshing = false
             }
 
-            override fun onError() {
-                adapter!!.loadMoreFail()
-                mView!!.wx_refresh_layout.isRefreshing = false
-            }
 
         })
 

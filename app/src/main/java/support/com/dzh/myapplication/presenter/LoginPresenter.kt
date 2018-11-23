@@ -42,7 +42,7 @@ class LoginPresenter :BasePresenter{
                     }
 
                     override fun failure(statusCode: Int, apiErrorModel: ApiErrorModel) {
-                       mView!!.onFail()
+                       mView!!.onError(apiErrorModel.message)
                     }
 
                 })

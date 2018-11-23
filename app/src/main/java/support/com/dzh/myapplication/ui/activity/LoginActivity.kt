@@ -54,7 +54,7 @@ class LoginActivity : BaseActivity() {
 
 
         presenter = LoginPresenter(this,this, object : LoginView {
-            override fun onFail() {
+            override fun onError(msg: String) {
                 ToastUtil.show(this@LoginActivity,"登陆失败")
             }
 
