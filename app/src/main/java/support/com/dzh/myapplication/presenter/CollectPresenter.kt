@@ -1,14 +1,14 @@
 package support.com.dzh.myapplication.presenter
 
 import android.content.Context
+import android.util.Log
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.kotlin.bindUntilEvent
 import support.com.dzh.myapplication.base.BaseBean
 import support.com.dzh.myapplication.base.BasePresenter
 import support.com.dzh.myapplication.base.BaseView
-import support.com.dzh.myapplication.model.CollectListBean
-import support.com.dzh.myapplication.model.Data
+import support.com.dzh.myapplication.model.BeanCollectWeb
 import support.com.dzh.myapplication.model.HoneList
 import support.com.dzh.myapplication.server.ApiErrorModel
 import support.com.dzh.myapplication.server.ApiManager
@@ -38,6 +38,35 @@ class CollectPresenter : BasePresenter {
             }
 
         })
+    }
+
+    fun getCollectWeb() {
+        apiManager!!.getCollectWeb().compose(NetworkScheduler.compose()).bindUntilEvent(provider, ActivityEvent.DESTROY).subscribe(object : ApiResponse<BaseBean<List<BeanCollectWeb>>>(mContext!!) {
+            override fun success(data: BaseBean<List<BeanCollectWeb>>) {
+                cView!!.onWebSuccess(data.data!!)
+            }
+
+            override fun failure(statusCode: Int, apiErrorModel: ApiErrorModel) {
+                cView!!.onError(apiErrorModel.message)
+            }
+
+
+        })
+    }
+
+    fun getDeleteCWeb(id: Int) {
+        apiManager!!.getDeleteCWeb(id).compose(NetworkScheduler.compose()).bindUntilEvent(provider, ActivityEvent.DESTROY).subscribe {
+            object : ApiResponse<BaseBean<String>>(mContext!!) {
+                override fun failure(statusCode: Int, apiErrorModel: ApiErrorModel) {
+                    Log.e("11111111111", "111111111111111")
+                }
+
+                override fun success(data: BaseBean<String>) {
+                    cView!!.onDeleteSuccess()
+                }
+
+            }
+        }
     }
 
 }

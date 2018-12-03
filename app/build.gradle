@@ -54,4 +54,5 @@ dependencies {
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'homhomlin.lib:apsts:1.8.0'
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
 }

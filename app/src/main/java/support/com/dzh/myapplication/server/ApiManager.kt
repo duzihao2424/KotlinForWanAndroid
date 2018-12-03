@@ -41,5 +41,13 @@ class ApiManager {
         return apiService!!.getWxArtivleList(page, id)
     }
 
+    fun getCollectWeb():Observable<BaseBean<List<BeanCollectWeb>>>{
+        return  apiService!!.getCollectWebList()
+    }
+
+    fun getDeleteCWeb(id:Int):Observable<BaseBean<String>> {
+        return apiService!!.getDeleteCWeb(id)
+    }
+
 
 }

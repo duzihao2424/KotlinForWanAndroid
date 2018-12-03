@@ -34,13 +34,11 @@ class HomeAdapter(layoutId: Int, data: List<Data>, private val type: Int) : Base
         } else {
             helper!!.let {
                 it.setText(R.id.home_title, item!!.title)
-                it.setText(R.id.home_author, "作者：" + item!!.author)
-                it.setText(R.id.home_type, item!!.chapterName)
+                it.setText(R.id.home_author, item!!.author)
                 it.setText(R.id.home_time, "时间：" + item!!.niceDate)
                 it.addOnClickListener(R.id.collect_img)
             }
 
-            helper.getView<TextView>(R.id.is_gzh).visibility = View.GONE
             helper.setImageResource(R.id.collect_img, R.drawable.ic_like)
 
         }

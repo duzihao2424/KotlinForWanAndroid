@@ -1,10 +1,7 @@
 package support.com.dzh.myapplication.server
 
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 import support.com.dzh.myapplication.base.BaseBean
 import support.com.dzh.myapplication.model.*
 
@@ -28,5 +25,11 @@ interface ApiService {
 
     @GET("wxarticle/list/{id}/{page}/json")
     fun getWxArtivleList(@Path("page") page: Int, @Path("id") id: Int): Observable<BaseBean<BeanWxList>>
+
+    @GET("lg/collect/usertools/json")
+    fun getCollectWebList(): Observable<BaseBean<List<BeanCollectWeb>>>
+
+    @POST("lg/collect/deletetool/json")
+    fun getDeleteCWeb(@Query("id") id: Int):Observable<BaseBean<String>>
 
 }

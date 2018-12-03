@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.fragment_collect_article.view.*
 import support.com.dzh.myapplication.R
 import support.com.dzh.myapplication.adapter.HomeAdapter
 import support.com.dzh.myapplication.base.BaseFragment
+import support.com.dzh.myapplication.model.BeanCollectWeb
 import support.com.dzh.myapplication.model.Data
 import support.com.dzh.myapplication.presenter.CollectPresenter
 import support.com.dzh.myapplication.utils.ToastUtil
@@ -27,9 +28,17 @@ class FragmentCollectArticle : BaseFragment() {
 
     override fun initListener() {
         mView!!.rview.layoutManager = LinearLayoutManager(context!!)
-        adapter = HomeAdapter(R.layout.item_home_layout, list1,1)
+        adapter = HomeAdapter(R.layout.item_collect_layout, list1,1)
         mView!!.rview.adapter = adapter
         presenter = CollectPresenter(this.context!!, this.activity as RxAppCompatActivity, object : CollectView {
+            override fun onDeleteSuccess() {
+
+            }
+
+            override fun onWebSuccess(data: List<BeanCollectWeb>) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
             override fun onSuccess(list: List<Data>) {
                 list1.addAll(list)
                 adapter!!.notifyDataSetChanged()
